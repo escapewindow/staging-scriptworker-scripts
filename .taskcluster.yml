@@ -42,15 +42,16 @@ tasks:
                           else:
                               $if: 'tasks_for in ["cron", "action"]'
                               then: '${repository.url}'
-                  project:
-                      $if: 'tasks_for == "github-push"'
-                      then: '${event.repository.name}'
-                      else:
-                          $if: 'tasks_for == "github-pull-request"'
-                          then: '${event.pull_request.head.repo.name}'
-                          else:
-                              $if: 'tasks_for in ["cron", "action"]'
-                              then: '${repository.project}'
+                  # XXX , just to match index scopes for now
+                  project: "aki-scriptworker-scripts"
+                  #   $if: 'tasks_for == "github-push"'
+                  #   then: '${event.repository.name}'
+                  #   else:
+                  #       $if: 'tasks_for == "github-pull-request"'
+                  #       then: '${event.pull_request.head.repo.name}'
+                  #       else:
+                  #           $if: 'tasks_for in ["cron", "action"]'
+                  #           then: '${repository.project}'
                   head_branch:
                       $if: 'tasks_for == "github-pull-request"'
                       then: ${event.pull_request.head.ref}
