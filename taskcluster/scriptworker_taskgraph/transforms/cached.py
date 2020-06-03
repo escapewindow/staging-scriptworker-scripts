@@ -24,7 +24,7 @@ IGNORE_DIRS = (".git", "docs", "maintenance")
 # File extensions we ignore, anywhere in the tree
 IGNORE_EXTENSIONS = (".pyc", ".swp")
 
-ADDITIONAL_FILES = (".taskcluster.yml", )
+ADDITIONAL_FILES = tuple([])
 
 
 @memoize
@@ -68,7 +68,7 @@ def build_cache(config, tasks):
             for d in directories:
                 directory = os.path.join(BASE_DIR, d)
                 files.update(list_files(directory))
-            files.update(list_files(os.path.join(BASE_DIR, "taskcluster")))
+            # files.update(list_files(os.path.join(BASE_DIR, "taskcluster")))
             for path in ADDITIONAL_FILES:
                 if os.path.exists(path):
                     files.update({path})
