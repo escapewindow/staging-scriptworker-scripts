@@ -12,7 +12,7 @@ taskgraph:
     repositories:
         scriptworker-scripts:
             name: "Scriptworker-scripts"
-            project-regex: scriptworker-scripts$
+            project-regex: ^scriptworker-scripts$
             default-repository: https://github.com/mozilla-releng/scriptworker-scripts
             default-ref: master
             type: git
