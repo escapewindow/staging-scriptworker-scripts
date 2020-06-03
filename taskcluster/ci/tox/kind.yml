@@ -35,6 +35,7 @@ job-defaults:
             staging-scriptworker-scripts: {}
         # sparse-profile: basestring/none
         # workdir:
+        cwd: '{checkout}'
         command:
             - sh
             - -lxce
