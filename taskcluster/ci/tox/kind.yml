@@ -42,6 +42,23 @@ job-defaults:
               tox -e {name}-py{python_version}
 
 jobs:
+    addonscript:
+        description: addonscript tox-py{python_version}
+        digest-directories:
+            - addonscript
+    balrogscript:
+        description: balrogscript tox-py{python_version}
+        digest-directories:
+            - balrogscript
+            - scriptworker_client
+    beetmoverscript:
+        description: beetmoverscript tox-py{python_version}
+        digest-directories:
+            - beetmoverscript
+    bouncerscript:
+        description: bouncerscript tox-py{python_version}
+        digest-directories:
+            - bouncerscript
     client:
         description: scriptworker_client tox-py{python_version}
         digest-directories:
