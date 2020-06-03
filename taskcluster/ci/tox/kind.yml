@@ -33,7 +33,6 @@ job-defaults:
         checkout:
             # XXX scriptworker-scripts: {}
             staging-scriptworker-scripts: {}
-        cwd: '{checkout}'
         # sparse-profile: basestring/none
         # workdir:
         command:
