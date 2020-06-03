@@ -4,7 +4,6 @@
 
 # %ARG        PYTHON_VERSION
 FROM          python:$PYTHON_VERSION
-MAINTAINER    Aki Sasaki <aki@mozilla.com>
 
 # Add worker user
 RUN mkdir /builds && \
