@@ -1,0 +1,45 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+---
+loader: taskgraph.loader.transform:loader
+
+transforms:
+    - taskgraph.transforms.tox:transforms
+    - taskgraph.transforms.cached_tasks:transforms
+    - taskgraph.transforms.job:transforms
+    - taskgraph.transforms.task:transforms
+
+job-defaults:
+    # run-on-projects
+    worker-type: b-linux
+    run:
+        using: run-task
+        cache-dotcache: true
+        checkout:
+            scriptworker: {}
+        cwd: '{checkout}'
+        # sparse-profile: basestring/none
+        # workdir:
+
+jobs:
+    signingscript:
+        description: Signingscript tox-py{python_version}
+        python-versions:
+            - 38
+            - 37
+        worker:
+            docker-image: 'python:{python_version[0]}.{python_version[1]'
+            max-run-time: 30
+        when:
+            files-changed:
+                - 'signingscript/**'
+                - 'vendored/mozbuild/**'
+        run:
+            command:
+                - sh
+                - -lxce
+                - >-
+                  pip install tox &&
+                  tox -e ${project_name}-py${python_version}
+

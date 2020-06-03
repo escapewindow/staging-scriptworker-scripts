@@ -36,27 +36,6 @@ workers:
             implementation: docker-worker
             os: linux
             worker-type: 'images'
-        dep-signing:
-            provisioner: scriptworker-k8s
-            implementation: scriptworker-signing
-            os: scriptworker
-            worker-type: scriptworker-t-signing
-        signing:
-            provisioner: scriptworker-k8s
-            implementation: scriptworker-signing
-            os: scriptworker
-            worker-type:
-                by-level:
-                    "3": scriptworker-3-signing
-                    default: scriptworker-t-signing
-        shipit:
-            provisioner: scriptworker-k8s
-            implementation: scriptworker-shipit
-            os: scriptworker
-            worker-type:
-                by-level:
-                    "3": scriptworker-3-shipit
-                    default: scriptworker-t-shipit
 
 notify:
     email:
