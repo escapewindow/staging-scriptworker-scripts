@@ -12,7 +12,7 @@ taskgraph:
     repositories:
         scriptworker-scripts:
             name: "Scriptworker-scripts"
-            project-regex: ^scriptworker-scripts$
+            project-regex: scriptworker-scripts$
             default-repository: https://github.com/mozilla-releng/scriptworker-scripts
             default-ref: master
             type: git
@@ -22,7 +22,6 @@ taskgraph:
             default-repository: https://github.com/escapewindow/staging-scriptworker-scripts
             default-ref: master
             type: git
-    cached-task-prefix: scriptworker-scripts
 
 workers:
     aliases:
