@@ -42,8 +42,22 @@ job-defaults:
               tox -e {name}-py{python_version}
 
 jobs:
+    client:
+        description: scriptworker_client tox-py{python_version}
+        digest-directories:
+            - scriptworker_client
+    configloader:
+        description: config loader tox-py{python_version}
+        digest-directories:
+            - configloader
+    iscript:
+        description: iscript tox-py{python_version}
+        digest-directories:
+            - iscript
+            - scriptworker_client
+            - vendored/mozbuild
     signingscript:
-        description: Signingscript tox-py{python_version}
+        description: signingscript tox-py{python_version}
         digest-directories:
             - signingscript
             - vendored/mozbuild
