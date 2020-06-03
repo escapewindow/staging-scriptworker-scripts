@@ -45,8 +45,3 @@ job-defaults:
 jobs:
     signingscript:
         description: Signingscript tox-py{python_version}
-        when:
-            files-changed:
-                - 'signingscript/**'
-                - 'vendored/mozbuild/**'
-
