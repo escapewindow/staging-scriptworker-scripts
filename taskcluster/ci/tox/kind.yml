@@ -13,6 +13,12 @@ transforms:
 job-defaults:
     # run-on-projects
     worker-type: b-linux
+    worker:
+        docker-image: 'python:{python_version[0]}.{python_version[1]'
+        max-run-time: 30
+    python-versions:
+        - 38
+        - 37
     run:
         using: run-task
         cache-dotcache: true
@@ -21,25 +27,18 @@ job-defaults:
         cwd: '{checkout}'
         # sparse-profile: basestring/none
         # workdir:
+        command:
+            - sh
+            - -lxce
+            - >-
+              pip install tox &&
+              tox -e ${project_name}-py${python_version}
 
 jobs:
     signingscript:
         description: Signingscript tox-py{python_version}
-        python-versions:
-            - 38
-            - 37
-        worker:
-            docker-image: 'python:{python_version[0]}.{python_version[1]'
-            max-run-time: 30
         when:
             files-changed:
                 - 'signingscript/**'
                 - 'vendored/mozbuild/**'
-        run:
-            command:
-                - sh
-                - -lxce
-                - >-
-                  pip install tox &&
-                  tox -e ${project_name}-py${python_version}
 
