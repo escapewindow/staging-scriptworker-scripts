@@ -19,7 +19,7 @@ job-defaults:
     worker-type: b-linux
     worker:
         docker-image: {in-tree: 'python{python_version}'}
-        max-run-time: 30
+        max-run-time: 1800
         artifacts:
             - type: directory
               name: public/
