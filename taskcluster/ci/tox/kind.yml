@@ -31,8 +31,7 @@ job-defaults:
         using: run-task
         cache-dotcache: false
         checkout:
-            # XXX scriptworker-scripts: {}
-            staging-scriptworker-scripts: {}
+            scriptworker: {}
         # sparse-profile: basestring/none
         # workdir:
         cwd: '{checkout}'
