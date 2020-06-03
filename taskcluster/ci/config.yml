@@ -15,8 +15,6 @@ taskgraph:
 #            name: "Scriptworker-scripts"
 #            project-regex: scriptworker-scripts$
 #            default-repository: https://github.com/mozilla-releng/scriptworker-scripts
-#            default-ref: master
-#            type: git
             name: "scriptworker-scripts taskgraph staging"
             project-regex: staging-scriptworker-scripts$
             default-repository: https://github.com/escapewindow/staging-scriptworker-scripts
