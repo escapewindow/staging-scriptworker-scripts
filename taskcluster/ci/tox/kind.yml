@@ -4,26 +4,35 @@
 ---
 loader: taskgraph.loader.transform:loader
 
+kind-dependencies:
+    - docker-image
+
 transforms:
-    - taskgraph.transforms.tox:transforms
-    - taskgraph.transforms.cached_tasks:transforms
+    - scriptworker_taskgraph.transforms.tox:transforms
+    # XXX use cached_tasks if `when` doesn't work
+    # - taskgraph.transforms.cached_tasks:transforms
     - taskgraph.transforms.job:transforms
     - taskgraph.transforms.task:transforms
 
 job-defaults:
-    # run-on-projects
+    run-on-tasks-for: ["action", "github-pull-request", "github-push"]
     worker-type: b-linux
     worker:
-        docker-image: 'python:{python_version[0]}.{python_version[1]'
+        docker-image: {in-tree: 'python{python_version}'}
         max-run-time: 30
+        artifacts:
+            - type: directory
+              name: public/
+              path: /builds/worker/artifacts/
     python-versions:
         - 38
         - 37
     run:
         using: run-task
-        cache-dotcache: true
+        cache-dotcache: false
         checkout:
-            scriptworker: {}
+            # XXX scriptworker-scripts: {}
+            sws-taskgraph: {}
         cwd: '{checkout}'
         # sparse-profile: basestring/none
         # workdir:
@@ -31,8 +40,7 @@ job-defaults:
             - sh
             - -lxce
             - >-
-              pip install tox &&
-              tox -e ${project_name}-py${python_version}
+              tox -e {name}-py{python_version}
 
 jobs:
     signingscript:

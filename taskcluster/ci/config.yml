@@ -18,7 +18,7 @@ taskgraph:
             type: git
         sws-taskgraph:
             name: "Aki scriptworker-scripts taskgraph staging"
-            project-regex: sws-taskgraph$
+            project-regex: sws-taskgraph
             default-repository: https://github.com/escapewindow/sws-taskgraph
             default-ref: master
             type: git
