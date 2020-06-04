@@ -2,8 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
-Apply some defaults and minor modifications to the jobs defined in the build
-kind.
+Create a task per job python-version
 """
 
 from __future__ import absolute_import, print_function, unicode_literals
@@ -13,7 +12,6 @@ from taskgraph.transforms.base import TransformSequence
 
 
 transforms = TransformSequence()
-
 
 def _replace_string(obj, repl_dict):
     if isinstance(obj, dict):
@@ -33,12 +31,12 @@ def tasks_per_python_version(config, jobs):
         for python_version in job.pop("python-versions"):
             task = deepcopy(job)
             repl_dict = {"name": job["name"], "python_version": python_version}
-            task["label"] = "tox-{name}-python{python_version}".format(**repl_dict)
+            task["label"] = _replace_string(task["label"], repl_dict)
             task['worker']['docker-image'] = _replace_string(task['worker']['docker-image'], repl_dict)
             task['description'] = _replace_string(task['description'], repl_dict)
             task['run']['command'] = _replace_string(task['run']['command'], repl_dict)
             task.setdefault("attributes", {}).update({
-                "name": job["name"],
+                "script-name": job["name"],
                 "python-version": python_version,
             })
             yield task

@@ -8,7 +8,7 @@ kind-dependencies:
     - docker-image
 
 transforms:
-    - scriptworker_taskgraph.transforms.tox:transforms
+    - scriptworker_taskgraph.transforms.python_version:transforms
     - scriptworker_taskgraph.transforms.cached:transforms
     - taskgraph.transforms.cached_tasks:transforms
     - taskgraph.transforms.job:transforms
@@ -16,6 +16,7 @@ transforms:
 
 job-defaults:
     description: "{name} tox-py{python_version}"
+    label: "tox-{name}-py{python_version}"
     run-on-tasks-for: ["action", "github-pull-request", "github-push"]
     worker-type: b-linux
     worker:
