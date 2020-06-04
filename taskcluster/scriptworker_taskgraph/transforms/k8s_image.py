@@ -54,16 +54,33 @@ def add_dependencies(config, jobs):
 def set_environment(config, jobs):
     """Set the environment variables for the docker hub task."""
     for job in jobs:
+        project_name = job["attributes"]["script-name"]
+        docker_repo = job.pop("docker-repo")
+        secret_url = job.pop("deploy-secret-url")
+        tasks_for = config.params['tasks_for']
+        scopes = job.setdefault("scopes", [])
         env = job["worker"].setdefault("env", {})
-        # XXX
-        yield job
-
-
-# XXX nuke me, just here to get a workable json
-@transforms.add
-def hack(config, jobs):
-    for job in jobs:
-        job.pop("push-docker-image")
-        job.pop("deploy-secret-url")
-        job.pop("docker-repo")
+        env["GIT_HEAD_REV"] = config.params['head_rev']
+        env["REPO_URL"] = config.params['head_repository']
+        env["PROJECT_NAME"] = project_name
+        env["TASKCLUSTER_ROOT_URL"] = "$TASKCLUSTER_ROOT_URL"
+        env["DOCKER_TAG"] = "unknown"
+        if tasks_for == 'github-pull-request':
+            env["DOCKER_TAG"] = "pull-request"
+        elif tasks_for == 'github-push':
+            for ref_name in ("dev", "production"):
+                if config.params['head_ref'] == "refs/heads/{}-{}".format(ref_name, project_name):
+                    docker_tag = ref_name
+                    break
+            else:
+                if config.params['head_ref'].startswith('refs/heads/'):
+                    docker_tag = config.params['head_ref'].replace('refs/heads/', '')
+        if job.pop("push-docker-image"):
+            env["PUSH_DOCKER_IMAGE"] = "1"
+            env["DOCKER_REPO"] = docker_repo
+            env["SECRET_URL"] = secret_url
+            # XXX move to config
+            scopes.append('secrets:get:project/releng/scriptworker-scripts/deploy')
+        else:
+            env["PUSH_DOCKER_IMAGE"] = "0"
         yield job
