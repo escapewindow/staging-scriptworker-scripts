@@ -8,8 +8,7 @@ FROM          docker:1.6.2
 
 RUN apk add --update python3
 
-RUN mkdir /builds && \
-    mkdir /builds/worker/artifacts
+RUN mkdir -p /builds/worker/artifacts
 
 # %include-run-task
 
