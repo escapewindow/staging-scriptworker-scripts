@@ -6,7 +6,7 @@
 # really old version in their setup
 FROM          docker:1.6.2
 
-RUN apk add --update python3 && apk add zstd
+RUN apk add --update python3 && apk add xz
 
 # Add worker user
 RUN mkdir /builds && \
