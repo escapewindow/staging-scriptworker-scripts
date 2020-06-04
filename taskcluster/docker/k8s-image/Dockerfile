@@ -6,7 +6,7 @@
 # really old version in their setup
 FROM          docker:1.6.2
 
-RUN apk add xz
+RUN apk add --update xz
 RUN mkdir -p /usr/local/bin
 COPY build_and_push.sh /usr/local/bin/build_and_push.sh
 
