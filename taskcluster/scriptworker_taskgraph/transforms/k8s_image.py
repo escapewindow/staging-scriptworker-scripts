@@ -17,8 +17,30 @@ transforms = TransformSequence()
 @transforms.add
 def add_dependencies(config, jobs):
     for job in jobs:
-        # XXX look at kind deps and add the matching attr
-        # tasks as deps
+        attributes = job["attributes"]
+        dependencies = job.setdefault("dependencies", {})
+        digest_directories = None
+        for dep_task in config.kind_dependencies_tasks:
+            dep_attrs = dep_task.attributes
+            dep_kind = dep_task.kind
+            if dep_attrs["python-version"]  == attributes["python-version"] and \
+                    dep_attrs["script-name"] == attributes["script-name"]:
+                if dependencies.get(dep_kind):
+                    raise Exception("Duplicate kind {kind} dependencies: {existing_label}, {new_label}".format(
+                        kind=dep_kind,
+                        existing_label=dependencies[dep_kind]["label"],
+                        new_label=dep_task.label,
+                    ))
+                dependencies[dep_kind] = dep_task.label
+                if dep_attrs.get("digest-directories"):
+                    if digest_directories and digest_directories != dep_attrs["digest-directories"]:
+                        raise Exception("Conflicting digest_directories: {existing_digest} {new_digest}".format(
+                            existing_digest=digest_directories,
+                            new_digest=dep_attrs["digest-directories"],
+                        ))
+                    digest_directories = dep_attrs["digest-directories"]
+        if digest_directories:
+            attributes["digest-directories"] = digest_directories
         yield job
 
 
