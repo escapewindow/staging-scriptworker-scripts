@@ -60,7 +60,7 @@ def set_environment(config, jobs):
         tasks_for = config.params['tasks_for']
         scopes = job.setdefault("scopes", [])
         env = job["worker"].setdefault("env", {})
-        env["GIT_HEAD_REV"] = config.params['head_rev']
+        env["HEAD_REV"] = config.params['head_rev']
         env["REPO_URL"] = config.params['head_repository']
         env["PROJECT_NAME"] = project_name
         env["TASKCLUSTER_ROOT_URL"] = "$TASKCLUSTER_ROOT_URL"
