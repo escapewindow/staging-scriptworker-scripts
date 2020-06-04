@@ -30,6 +30,10 @@ workers:
             os: linux
             worker-type: 'images'
 
+docker:
+    email: "release+dockerhub+services@mozilla.com"
+    user: mozillarelengservices
+
 notify:
     email:
         # TODO by-project/level
