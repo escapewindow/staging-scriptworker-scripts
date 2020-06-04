@@ -16,6 +16,12 @@ transforms = TransformSequence()
 
 @transforms.add
 def add_dependencies(config, jobs):
+    """Add dependencies that match python-version and script-name.
+
+    Also copy the digest-directories attribute, and fail if there are
+    unexpected discrepancies in upstream deps.
+
+    """
     for job in jobs:
         attributes = job["attributes"]
         dependencies = job.setdefault("dependencies", {})
