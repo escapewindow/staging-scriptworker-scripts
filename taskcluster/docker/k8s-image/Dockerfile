@@ -6,15 +6,15 @@
 # really old version in their setup
 FROM          docker:1.6.2
 
-RUN apk add --update python3 && apk add xz
+RUN apk add xz
+RUN mkdir -p /usr/local/bin
+COPY build_and_push.sh /usr/local/bin/build_and_push.sh
 
 # Add worker user
 RUN mkdir /builds && \
     adduser -D -h /builds/worker -g worker -u 1000 worker && \
     mkdir /builds/worker/artifacts && \
     chown worker:worker /builds/worker/artifacts
-
-# %include-run-task
 
 ENV SHELL=/bin/sh \
     HOME=/builds/worker \

@@ -34,7 +34,10 @@ def tasks_per_python_version(config, jobs):
             task["label"] = _replace_string(task["label"], repl_dict)
             task['worker']['docker-image'] = _replace_string(task['worker']['docker-image'], repl_dict)
             task['description'] = _replace_string(task['description'], repl_dict)
-            task['run']['command'] = _replace_string(task['run']['command'], repl_dict)
+            if task.get('run', {}).get('command'):
+                task['run']['command'] = _replace_string(task['run']['command'], repl_dict)
+            if task['worker'].get('command'):
+                task['worker']['command'] = _replace_string(task['worker']['command'], repl_dict)
             task.setdefault("attributes", {}).update({
                 "script-name": job["name"],
                 "python-version": python_version,

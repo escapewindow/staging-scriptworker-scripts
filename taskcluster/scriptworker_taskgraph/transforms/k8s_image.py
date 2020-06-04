@@ -50,6 +50,15 @@ def add_dependencies(config, jobs):
         yield job
 
 
+@transforms.add
+def set_environment(config, jobs):
+    """Set the environment variables for the docker hub task."""
+    for job in jobs:
+        env = job["worker"].setdefault("env", {})
+        # XXX
+        yield job
+
+
 # XXX nuke me, just here to get a workable json
 @transforms.add
 def hack(config, jobs):
