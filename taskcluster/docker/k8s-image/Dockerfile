@@ -8,7 +8,11 @@ FROM          docker:1.6.2
 
 RUN apk add --update python3
 
-RUN mkdir -p /builds/worker/artifacts
+# Add worker user
+RUN mkdir /builds && \
+    adduser -D -h /builds/worker -g worker -u 1000 worker && \
+    mkdir /builds/worker/artifacts && \
+    chown worker:worker /builds/worker/artifacts
 
 # %include-run-task
 
