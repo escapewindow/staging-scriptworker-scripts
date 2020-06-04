@@ -50,7 +50,7 @@ def add_digest_directories(config, tasks):
     for task in tasks:
         digest_directories = task.pop("digest-directories", None)
         if digest_directories:
-            task.setdefault("extra", {})["digest_directories"] = digest_directories
+            task.setdefault("attributes", {})["digest-directories"] = digest_directories
         yield task
 
 
@@ -63,7 +63,7 @@ def build_cache(config, tasks):
     for task in tasks:
         if task.get("cache", True) and not taskgraph.fast:
             digest_data = []
-            directories = task.get("extra", {}).get("digest_directories", [])
+            directories = task.get("attributes", {}).get("digest-directories", [])
             files = set([])
             for d in directories:
                 directory = os.path.join(BASE_DIR, d)
