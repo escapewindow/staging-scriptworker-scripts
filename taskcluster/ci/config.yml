@@ -2,10 +2,6 @@
 trust-domain: scriptworker
 
 task-priority: high
-# XXX once I figure out how to fix this
-#    by-level:
-#        3: very-high
-#        1: very-low
 
 taskgraph:
     register: scriptworker_taskgraph:register

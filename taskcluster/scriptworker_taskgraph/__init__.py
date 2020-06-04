@@ -13,11 +13,7 @@ def register(graph_config):
     the process.
     """
     _import_modules([
-#        "routes",
-#        "parameters",
-#        "release_promotion",
         "transforms",
-#        "worker_types",
     ])
 
 
