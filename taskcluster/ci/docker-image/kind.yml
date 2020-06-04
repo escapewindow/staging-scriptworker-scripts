@@ -19,3 +19,21 @@ jobs:
         definition: python
         args:
             PYTHON_VERSION: "3.7"
+    pushapkscript-py38:
+        definition: pushapkscript
+        parent: python38
+    pushapkscript-py37:
+        definition: pushapkscript
+        parent: python37
+    pushsnapscript-py38:
+        definition: pushsnapscript
+        parent: python38
+    pushsnapscript-py37:
+        definition: pushsnapscript
+        parent: python37
+    pushflatpakscript-py38:
+        definition: pushflatpakscript
+        parent: python38
+    pushflatpakscript-py37:
+        definition: pushflatpakscript
+        parent: python37
