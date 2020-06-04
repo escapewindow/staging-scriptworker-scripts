@@ -10,7 +10,7 @@ mkdir -p /builds/worker/checkouts
 cd /builds/worker/checkouts
 wget ${REPO_URL}/archive/${HEAD_REV}.tar.gz
 tar zxf ${HEAD_REV}.tar.gz
-mv scriptworker-scripts-${HEAD_REV} src
+mv *-${HEAD_REV} src
 cd src
 cp ${PROJECT_NAME}/docker.d/* docker.d/
 cp ${PROJECT_NAME}/Dockerfile .
