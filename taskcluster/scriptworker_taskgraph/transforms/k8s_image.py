@@ -83,6 +83,8 @@ def set_environment(config, jobs):
             # XXX check level?
             env["SECRET_URL"] = secret_url
             env["PUSH_DOCKER_IMAGE"] = "1"
+            env["DOCKERHUB_EMAIL"] = config.graph_config["docker"]["email"]
+            env["DOCKERHUB_USER"] = config.graph_config["docker"]["user"]
             scopes.append('secrets:get:project/releng/scriptworker-scripts/deploy')
             if force_push_docker_image:
                 attributes.setdefault("digest-extra", {}).setdefault("force_run", time.time())

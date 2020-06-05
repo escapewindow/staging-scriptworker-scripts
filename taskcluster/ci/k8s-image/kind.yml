@@ -33,7 +33,7 @@ job-defaults:
             - sh
             - -lxce
             - >-
-              sh -ex /usr/local/bin/build_and_push.sh
+              sh /usr/local/bin/build_and_push.sh
     python-versions:
         - 38
     deploy-secret-url: http://taskcluster/secrets/v1/secret/project/releng/scriptworker-scripts/deploy
