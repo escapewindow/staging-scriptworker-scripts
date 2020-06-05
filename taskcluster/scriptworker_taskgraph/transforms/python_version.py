@@ -38,6 +38,8 @@ def tasks_per_python_version(config, jobs):
                 task['run']['command'] = _replace_string(task['run']['command'], repl_dict)
             if task['worker'].get('command'):
                 task['worker']['command'] = _replace_string(task['worker']['command'], repl_dict)
+            if task.get('docker-repo'):
+                task['docker-repo'] = _replace_string(task['docker-repo'], repl_dict)
             task.setdefault("attributes", {}).update({
                 "script-name": job["name"],
                 "python-version": python_version,

@@ -14,9 +14,6 @@ transforms:
     - taskgraph.transforms.cached_tasks:transforms
     - taskgraph.transforms.task:transforms
 
-# TODO dependencies
-#      env
-
 job-defaults:
     description: "{name} k8s image builder py{python_version}"
     label: "{name}-k8s-image-builder-python{python_version}"
@@ -40,18 +37,17 @@ job-defaults:
     python-versions:
         - 38
     deploy-secret-url: http://taskcluster/secrets/v1/secret/project/releng/scriptworker-scripts/deploy
+    docker-repo: escapewindow/staging-{name}
     # TODO copy image to artifacts
-    # TODO scopes, metadata
 
 jobs:
-#    addonscript: {}
-#    balrogscript: {}
-#    beetmoverscript: {}
-#    bouncerscript: {}
-#    pushapkscript: {}
-#    pushflatpakscript: {}
-#    pushsnapscript: {}
-#    shipitscript: {}
-    signingscript:
-        docker-repo: escapewindow/staging-signingscript
-#    treescript: {}
+    addonscript: {}
+    balrogscript: {}
+    beetmoverscript: {}
+    bouncerscript: {}
+    pushapkscript: {}
+    pushflatpakscript: {}
+    pushsnapscript: {}
+    shipitscript: {}
+    signingscript: {}
+    treescript: {}
