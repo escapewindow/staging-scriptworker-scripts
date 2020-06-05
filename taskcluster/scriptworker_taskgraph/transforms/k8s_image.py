@@ -7,7 +7,7 @@ Kubernetes docker image builds.
 
 from __future__ import absolute_import, print_function, unicode_literals
 from copy import deepcopy
-from datetime import datetime
+import time
 
 from taskgraph.transforms.base import TransformSequence
 
@@ -85,7 +85,7 @@ def set_environment(config, jobs):
             env["PUSH_DOCKER_IMAGE"] = "1"
             scopes.append('secrets:get:project/releng/scriptworker-scripts/deploy')
             if force_push_docker_image:
-                attributes.setdefault("digest-extra", {}).setdefault("force_run", datetime.now().timestamp())
+                attributes.setdefault("digest-extra", {}).setdefault("force_run", time.time())
         else:
             env["PUSH_DOCKER_IMAGE"] = "0"
         yield job
