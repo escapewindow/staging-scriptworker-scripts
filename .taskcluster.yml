@@ -80,10 +80,7 @@ tasks:
                       level:
                           $if: 'tasks_for in ["github-push", "cron", "action"] && repoUrl == "https://github.com/mozilla-releng/scriptworker-scripts"'
                           then: 3
-                          else:
-                              $if: 'tasks_for in ["cron", "action"]'
-                              then: '${repository.level}'
-                              else: 1
+                          else: 1
                   in:
                       taskId:
                           $if: 'tasks_for != "action"'

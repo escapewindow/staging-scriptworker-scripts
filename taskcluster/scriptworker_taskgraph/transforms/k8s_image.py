@@ -79,7 +79,7 @@ def set_environment(config, jobs):
             else:
                 if config.params['head_ref'].startswith('refs/heads/'):
                     env["DOCKER_TAG"] = config.params['head_ref'].replace('refs/heads/', '')
-        if env["DOCKER_TAG"] in ("production", "dev") and config.params["level"] == 3:
+        if env["DOCKER_TAG"] in ("production", "dev") and config.params["level"] == "3":
             env["SECRET_URL"] = secret_url
             env["PUSH_DOCKER_IMAGE"] = "1"
             env["DOCKERHUB_EMAIL"] = config.graph_config["docker"]["email"]
