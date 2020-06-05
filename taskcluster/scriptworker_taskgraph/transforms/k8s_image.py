@@ -7,6 +7,7 @@ Kubernetes docker image builds.
 
 from __future__ import absolute_import, print_function, unicode_literals
 from copy import deepcopy
+from datetime import datetime
 
 from taskgraph.transforms.base import TransformSequence
 
@@ -58,6 +59,7 @@ def set_environment(config, jobs):
         secret_url = job.pop("deploy-secret-url")
         tasks_for = config.params['tasks_for']
         scopes = job.setdefault("scopes", [])
+        attributes = job["attributes"]
         env = job["worker"].setdefault("env", {})
         env["HEAD_REV"] = config.params['head_rev']
         env["REPO_URL"] = config.params['head_repository']
@@ -65,22 +67,25 @@ def set_environment(config, jobs):
         env["TASKCLUSTER_ROOT_URL"] = "$TASKCLUSTER_ROOT_URL"
         env["DOCKER_TAG"] = "unknown"
         env["DOCKER_REPO"] = job.pop("docker-repo")
-        push_docker_image = False
+        force_push_docker_image = False
         if tasks_for == 'github-pull-request':
             env["DOCKER_TAG"] = "pull-request"
         elif tasks_for == 'github-push':
             for ref_name in ("dev", "production"):
                 if config.params['head_ref'] == "refs/heads/{}-{}".format(ref_name, project_name):
                     env["DOCKER_TAG"] = ref_name
+                    force_push_docker_image = True
                     break
             else:
                 if config.params['head_ref'].startswith('refs/heads/'):
                     env["DOCKER_TAG"] = config.params['head_ref'].replace('refs/heads/', '')
         if env["DOCKER_TAG"] in ("production", "dev"):
-            # XXX check level
+            # XXX check level?
             env["SECRET_URL"] = secret_url
             env["PUSH_DOCKER_IMAGE"] = "1"
             scopes.append('secrets:get:project/releng/scriptworker-scripts/deploy')
+            if force_push_docker_image:
+                attributes.setdefault("digest-extra", {}).setdefault("force_run", datetime.now().timestamp())
         else:
             env["PUSH_DOCKER_IMAGE"] = "0"
         yield job

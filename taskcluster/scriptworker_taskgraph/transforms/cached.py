@@ -5,6 +5,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import hashlib
+import json
 import os
 import subprocess
 
@@ -47,6 +48,7 @@ def list_files(path):
 
 @transforms.add
 def add_digest_directories(config, tasks):
+    # TODO `s,digest-directories,digest-files`, where we check isdir(file) ?
     for task in tasks:
         digest_directories = task.pop("digest-directories", None)
         if digest_directories:
@@ -63,6 +65,10 @@ def build_cache(config, tasks):
     for task in tasks:
         if task.get("cache", True) and not taskgraph.fast:
             digest_data = []
+            h = hashlib.sha256()
+            h.update(
+                json.dumps(task.get("attributes", {}).get("digest-extra", {}), indent=2, sort_keys=True)
+            )
             directories = task.get("attributes", {}).get("digest-directories", [])
             files = set([])
             for d in directories:
@@ -72,7 +78,6 @@ def build_cache(config, tasks):
             for path in ADDITIONAL_FILES:
                 if os.path.exists(path):
                     files.update({path})
-            h = hashlib.sha256()
             for path in sorted(list(files)):
                 h.update(
                     "{} {}\n".format(
