@@ -37,7 +37,7 @@ job-defaults:
     python-versions:
         - 38
     deploy-secret-url: http://taskcluster/secrets/v1/secret/project/releng/scriptworker-scripts/deploy
-    docker-repo: escapewindow/staging-{name}
+    docker-repo: mozilla/releng-{name}
     # TODO copy image to artifacts
 
 jobs:
