@@ -55,7 +55,6 @@ def set_environment(config, jobs):
     """Set the environment variables for the docker hub task."""
     for job in jobs:
         project_name = job["attributes"]["script-name"]
-        docker_repo = job.pop("docker-repo")
         secret_url = job.pop("deploy-secret-url")
         tasks_for = config.params['tasks_for']
         scopes = job.setdefault("scopes", [])
@@ -65,6 +64,7 @@ def set_environment(config, jobs):
         env["PROJECT_NAME"] = project_name
         env["TASKCLUSTER_ROOT_URL"] = "$TASKCLUSTER_ROOT_URL"
         env["DOCKER_TAG"] = "unknown"
+        env["DOCKER_REPO"] = job.pop("docker-repo")
         if tasks_for == 'github-pull-request':
             env["DOCKER_TAG"] = "pull-request"
         elif tasks_for == 'github-push':
@@ -77,7 +77,6 @@ def set_environment(config, jobs):
                     docker_tag = config.params['head_ref'].replace('refs/heads/', '')
         if job.pop("push-docker-image"):
             env["PUSH_DOCKER_IMAGE"] = "1"
-            env["DOCKER_REPO"] = docker_repo
             env["SECRET_URL"] = secret_url
             # XXX move to config
             scopes.append('secrets:get:project/releng/scriptworker-scripts/deploy')
