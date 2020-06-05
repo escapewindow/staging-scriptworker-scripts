@@ -39,7 +39,6 @@ job-defaults:
               sh /usr/local/bin/build_and_push.sh
     python-versions:
         - 38
-    push-docker-image: false  # by-tasks_for, by-branch, by-level
     deploy-secret-url: http://taskcluster/secrets/v1/secret/project/releng/scriptworker-scripts/deploy
     # TODO copy image to artifacts
     # TODO scopes, metadata
@@ -55,8 +54,4 @@ jobs:
 #    shipitscript: {}
     signingscript:
         docker-repo: escapewindow/staging-signingscript
-        # TODO docker-tag
-        # TODO git head rev
-        # TODO project_name (name)
-        # TODO repo_url
 #    treescript: {}

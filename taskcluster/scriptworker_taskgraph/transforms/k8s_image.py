@@ -65,20 +65,21 @@ def set_environment(config, jobs):
         env["TASKCLUSTER_ROOT_URL"] = "$TASKCLUSTER_ROOT_URL"
         env["DOCKER_TAG"] = "unknown"
         env["DOCKER_REPO"] = job.pop("docker-repo")
+        push_docker_image = False
         if tasks_for == 'github-pull-request':
             env["DOCKER_TAG"] = "pull-request"
         elif tasks_for == 'github-push':
             for ref_name in ("dev", "production"):
                 if config.params['head_ref'] == "refs/heads/{}-{}".format(ref_name, project_name):
-                    docker_tag = ref_name
+                    env["DOCKER_TAG"] = ref_name
                     break
             else:
                 if config.params['head_ref'].startswith('refs/heads/'):
-                    docker_tag = config.params['head_ref'].replace('refs/heads/', '')
-        if job.pop("push-docker-image"):
-            env["PUSH_DOCKER_IMAGE"] = "1"
+                    env["DOCKER_TAG"] = config.params['head_ref'].replace('refs/heads/', '')
+        if env["DOCKER_TAG"] in ("production", "dev"):
+            # XXX check level
             env["SECRET_URL"] = secret_url
-            # XXX move to config
+            env["PUSH_DOCKER_IMAGE"] = "1"
             scopes.append('secrets:get:project/releng/scriptworker-scripts/deploy')
         else:
             env["PUSH_DOCKER_IMAGE"] = "0"
