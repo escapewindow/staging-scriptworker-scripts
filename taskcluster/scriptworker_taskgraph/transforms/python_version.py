@@ -52,7 +52,7 @@ def skip_on_project_specific_branches(config, jobs):
     """Skip if the branch is project-specific for a different project."""
     project_specific_prefixes = ("refs/heads/dev-", "refs/heads/production-")
     for job in jobs:
-        script_name = task["attributes"]["script-name"]
+        script_name = job["attributes"]["script-name"]
         project_specific_branches = ["{}{}".format(prefix, script_name) for prefix in project_specific_prefixes]
         if config.params['head_ref'].startswith(project_specific_prefixes) and \
                 config.params['head_ref'] not in project_specific_branches:
